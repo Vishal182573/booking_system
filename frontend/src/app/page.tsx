@@ -1,101 +1,166 @@
+"use client"
+import { FaPlane, FaHotel, FaCar, FaTag, FaUserAlt, FaRegCheckCircle, FaPhoneAlt, FaInfoCircle, FaPhone } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import TravelSearch from "@/components/form/booking_form";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { IMG1, IMG2, IMG3 } from "../../public";
 
-export default function Home() {
+const Navbar = () => (
+  <nav className="bg-gradient-to-r from-blue-700 to-blue-900 p-4 shadow-lg">
+    <div className="container mx-auto flex justify-between items-center">
+      <h1 className="text-3xl font-bold text-white">TravelEase</h1>
+      <Button variant="outline" className="text-white border-white hover:bg-white hover:text-blue-700">
+        <FaPhone className="mr-2" />
+        <span>000-800-050-3540</span>
+      </Button>
+    </div>
+  </nav>
+);
+
+const DestinationCard = ({ title, image, price }: { title: string; image: any, price: string }) => (
+  <Card className="overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300">
+    <div className="relative h-48">
+      {/* Remove legacy props like layout and objectFit */}
+      <Image src={image} alt={title} fill className="object-cover" />
+    </div>
+    <CardContent className="p-4">
+      <h3 className="text-lg font-bold">{title}</h3>
+      <p className="text-sm text-gray-600">{price}</p>
+    </CardContent>
+  </Card>
+);
+
+
+const PopularDestinations = () => (
+  <section className="my-12 px-4">
+    <h2 className="text-3xl font-bold mb-6 text-center">Popular Packages</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <DestinationCard title="Paris, France" image={IMG1} price="299" />
+      <DestinationCard title="Tokyo, Japan" image={IMG2} price="799" />
+      <DestinationCard title="New York, USA" image={IMG3} price="349" />
+      <DestinationCard title="Sydney, Australia" image={IMG1} price="899" />
+    </div>
+  </section>
+);
+
+const WhyChooseUs = () => (
+  <section className="bg-gray-100 py-12 px-4">
+    <div className="container mx-auto">
+      <h2 className="text-3xl font-bold mb-6 text-center">Why Choose TravelEase</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {[
+          { text: "Best Price Guarantee", icon: FaRegCheckCircle },
+          { text: "Easy Booking Process", icon: FaInfoCircle },
+          { text: "24/7 Customer Support", icon: FaPhoneAlt },
+          { text: "Flexible Cancellation", icon: FaRegCheckCircle },
+        ].map((feature, index) => (
+          <Card key={index} className="text-center shadow-lg p-6 hover:bg-blue-50 transition-colors duration-300">
+            <CardHeader className="flex flex-col items-center">
+              <feature.icon size={40} className="text-blue-700 mb-4" />
+              <h3 className="font-semibold text-lg">{feature.text}</h3>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">We offer {feature.text.toLowerCase()} for your peace of mind.</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const Footer = () => (
+  <footer className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-12 px-4">
+    <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h3 className="font-bold text-lg mb-4">About Us</h3>
+        <p className="text-gray-300">TravelEase is an award-winning travel assistance platform, offering affordable travel solutions. With over 500 airlines to choose from, we're committed to making your journey seamless and enjoyable.</p>
+      </div>
+      <div>
+        <h3 className="font-bold text-lg mb-4">Contact Us</h3>
+        <p className="text-gray-300">Need help booking? Our agents are ready!</p>
+        <p className="font-bold mt-2 text-blue-300">Call us 24/7 at 000-800-050-3540</p>
+      </div>
+      <div>
+        <h3 className="font-bold text-lg mb-4">Awards</h3>
+        <ul className="space-y-2 text-gray-300">
+          <li>American Business Awards</li>
+          <li>Stevie Awards for Sales & Customer Service</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+);
+
+interface CarouselProps {
+  images: any[];
+}
+
+const Carousel: React.FC<CarouselProps> = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 5000); // Auto-advance every 5 seconds
+    return () => clearInterval(interval); // Clear interval on unmount
+  }, [images.length]); // Dependency array includes `images.length`
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="relative w-full h-screen">
+      {images.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            index === currentIndex ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Image
+            src={image}
+            alt={`Slide ${index + 1}`}
+            layout="fill"
+            objectFit="cover"
+            priority
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ))}
+
+      <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="text-center text-white px-4 max-w-4xl">
+          <h1 className="text-5xl font-bold mb-6">Find Your Perfect Trip</h1>
+          <p className="text-xl mb-8">Search deals on hotels, homes, and much more...</p>
+          <TravelSearch />
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+const HomePage: React.FC = () => {
+  const carouselImages = [IMG1,IMG2,IMG3]; // Adjust paths as needed
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <Carousel images={carouselImages} />
+        <div className="container mx-auto py-12">
+          <PopularDestinations />
+          <WhyChooseUs />
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default HomePage;
