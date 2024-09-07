@@ -1,11 +1,10 @@
 "use client"
-import { FaPlane, FaHotel, FaCar, FaTag, FaUserAlt, FaRegCheckCircle, FaPhoneAlt, FaInfoCircle, FaPhone } from "react-icons/fa";
+import { FaRegCheckCircle, FaPhoneAlt, FaInfoCircle, FaPhone } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import TravelSearch from "@/components/form/booking_form";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { IMG1, IMG2, IMG3 } from "../../public";
 
 const Navbar = () => (
