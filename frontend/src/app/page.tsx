@@ -77,7 +77,7 @@ const Footer = () => (
     <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
       <div>
         <h3 className="font-bold text-lg mb-4">About Us</h3>
-        <p className="text-gray-300">TravelEase is an award-winning travel assistance platform, offering affordable travel solutions. With over 500 airlines to choose from, we're committed to making your journey seamless and enjoyable.</p>
+        <p className="text-gray-300">TravelEase is an award-winning travel assistance platform, offering affordable travel solutions. With over 500 airlines to choose from, we are committed to making your journey seamless and enjoyable.</p>
       </div>
       <div>
         <h3 className="font-bold text-lg mb-4">Contact Us</h3>
